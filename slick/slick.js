@@ -483,7 +483,7 @@
         var _ = this,
             i, dot;
 
-        if (_.options.dots === true) {
+        if (_.options.dots === true && _.getDotCount() > 1) {
 
             _.$slider.addClass('slick-dotted');
 
