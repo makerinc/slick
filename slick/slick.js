@@ -1105,13 +1105,18 @@
             verticalOffset = 0;
         }
 
-        if (_.options.centerMode === true && _.slideCount <= _.options.slidesToShow) {
-            _.slideOffset = ((_.slideWidth * Math.floor(_.options.slidesToShow)) / 2) - ((_.slideWidth * _.slideCount) / 2);
-        } else if (_.options.centerMode === true && _.options.infinite === true) {
-            _.slideOffset += _.slideWidth * Math.floor(_.options.slidesToShow / 2) - _.slideWidth;
-        } else if (_.options.centerMode === true) {
-            _.slideOffset = 0;
-            _.slideOffset += _.slideWidth * Math.floor(_.options.slidesToShow / 2);
+        // https://github.com/kenwheeler/slick/issues/2917
+        if (_.options.centerMode === true) {
+            if (_.options.infinite === true) {
+                if (_.slideCount <= _.options.slidesToShow) {
+                    _.slideOffset += Math.floor(_.slideWidth * (_.options.slidesToShow - _.slideCount)) / 2;
+                } else {
+                    _.slideOffset += _.slideWidth * Math.floor(_.options.slidesToShow / 2) - _.slideWidth;
+                }
+            } else {
+                 _.slideOffset = 0;
+                _.slideOffset += _.slideWidth * Math.floor(_.options.slidesToShow / 2);
+            }
         }
 
         if (_.options.vertical === false) {
