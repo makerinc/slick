@@ -1301,7 +1301,7 @@
             //Evenly distribute aria-describedby tags through available dots.
             var describedBySlideId = _.options.centerMode ? i : Math.floor(i / _.options.slidesToShow);
 
-            if (_.options.dots === true) {
+            if (_.options.dots === true && _.$dots !== null) {
                 $(this).attr('aria-describedby', 'slick-slide' + _.instanceUid + describedBySlideId + '');
             }
         });
@@ -1346,13 +1346,13 @@
 
         var _ = this;
 
-        if (_.options.dots === true) {
+        if (_.options.dots === true && _.$dots !== null) {
             $('li', _.$dots).on('click.slick', {
                 message: 'index'
             }, _.changeSlide);
         }
 
-        if ( _.options.dots === true && _.options.pauseOnDotsHover === true ) {
+        if ( _.options.dots === true && _.$dots !== null && _.options.pauseOnDotsHover === true ) {
 
             $('li', _.$dots)
                 .on('mouseenter.slick', $.proxy(_.interrupt, _, true))
@@ -1431,7 +1431,7 @@
 
         }
 
-        if (_.options.dots === true && _.slideCount > _.options.slidesToShow) {
+        if (_.options.dots === true && _.$dots !== null && _.slideCount > _.options.slidesToShow) {
 
             _.$dots.show();
 
@@ -2543,7 +2543,7 @@
 
         }
 
-        if (_.options.dots === true && _.slideCount > _.options.slidesToShow) {
+        if (_.options.dots === true && _.$dots !== null && _.slideCount > _.options.slidesToShow) {
 
             _.$dots.hide();
 
