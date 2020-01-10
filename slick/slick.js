@@ -2350,6 +2350,8 @@
 
                 if (_.options.centerMode === true) {
                     infiniteCount = _.options.slidesToShow + 1;
+                } else if (_.options.variableWidth) {
+                    infiniteCount = _.slideCount;
                 } else {
                     infiniteCount = _.options.slidesToShow;
                 }
