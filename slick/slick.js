@@ -2336,7 +2336,8 @@
     Slick.prototype.setupInfinite = function() {
 
         var _ = this,
-            i, slideIndex, infiniteCount;
+            adjust = 0,
+            i, slideIndex, infiniteCount, infiniteCountPrev;
 
         if (_.options.fade === true) {
             _.options.centerMode = false;
@@ -2350,23 +2351,29 @@
 
                 if (_.options.centerMode === true) {
                     infiniteCount = _.options.slidesToShow + 1;
+                    infiniteCountPrev = infiniteCount;
                 } else if (_.options.variableWidth) {
-                    infiniteCount = _.slideCount;
+                    infiniteCount = _.slideCount * 2;
+                    infiniteCountPrev = _.options.slidesToShow;
                 } else {
                     infiniteCount = _.options.slidesToShow;
+                    infiniteCountPrev = infiniteCount;
                 }
 
                 for (i = _.slideCount; i > (_.slideCount -
-                        infiniteCount); i -= 1) {
+                    infiniteCountPrev); i -= 1) {
                     slideIndex = i - 1;
                     $(_.$slides[slideIndex]).clone(true)
                         .attr('data-slick-index', slideIndex - _.slideCount)
                         .prependTo(_.$slideTrack).addClass('slick-cloned');
                 }
                 for (i = 0; i < infiniteCount; i += 1) {
-                    slideIndex = i;
+                    if (!adjust && i > _.slideCount - 1) {
+                        adjust = _.slideCount;
+                    }
+                    slideIndex = i - adjust;
                     $(_.$slides[slideIndex]).clone(true)
-                        .attr('data-slick-index', slideIndex + _.slideCount)
+                        .attr('data-slick-index', slideIndex + _.slideCount + adjust)
                         .appendTo(_.$slideTrack).addClass('slick-cloned');
                 }
 
