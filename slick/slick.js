@@ -169,6 +169,9 @@
             _.swipeHandler = $.proxy(_.swipeHandler, _);
             _.dragHandler = $.proxy(_.dragHandler, _);
             _.keyHandler = $.proxy(_.keyHandler, _);
+            _.resize = $.proxy(_.resize, _);
+            _.orientationChange = $.proxy(_.orientationChange, _);
+            _.visibility = $.proxy(_.visibility, _);
 
             _.instanceUid = instanceUid++;
 
@@ -1399,7 +1402,7 @@
 
         _.$list.on('click.slick', _.clickHandler);
 
-        $(document).on(_.visibilityChange, $.proxy(_.visibility, _));
+        $(document).on(_.visibilityChange, _.visibility);
 
         if (_.options.accessibility === true) {
             _.$list.on('keydown.slick', _.keyHandler);
@@ -1409,9 +1412,9 @@
             $(_.$slideTrack).children().on('click.slick', _.selectHandler);
         }
 
-        $(window).on('orientationchange.slick.slick-' + _.instanceUid, $.proxy(_.orientationChange, _));
+        $(window).on('orientationchange.slick.slick-' + _.instanceUid, _.orientationChange);
 
-        $(window).on('resize.slick.slick-' + _.instanceUid, $.proxy(_.resize, _));
+        $(window).on('resize.slick.slick-' + _.instanceUid, _.resize);
 
         $('[draggable!=true]', _.$slideTrack).on('dragstart', _.preventDefault);
 
@@ -1898,8 +1901,10 @@
             clearTimeout(_.windowDelay);
             _.windowDelay = window.setTimeout(function() {
                 _.windowWidth = $(window).width();
-                _.checkResponsive();
-                if( !_.unslicked ) { _.setPosition(); }
+                if( !_.unslicked ) {
+                    _.checkResponsive();
+                    _.setPosition();
+                }
             }, 50);
         }
     };
